@@ -1,9 +1,11 @@
+#include "Enemy.h"
 #include "StartMenu.h"
 
-int main(){
+using namespace std;
+
+int main() {
 
   startMenu();
 
   return 0;
 }
-
