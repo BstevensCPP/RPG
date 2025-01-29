@@ -28,7 +28,7 @@ void EnterBattle(Player *user) {
     cout << "what?\n";
   }
 
-  cout << "A wild " << enemy->getName() << " Appeared!\n";
+  cout << "\nA wild " << enemy->getName() << " Appeared!\n";
   cout << "\n - - Press Enter to Continue - - \n";
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
   cin.get();
@@ -72,7 +72,6 @@ void EnterBattle(Player *user) {
       case 2:
         // Defend
         user->buffDefence(8);
-        cout << "\nArmored up!\n";
         break;
       case 3:
         // Run
@@ -82,9 +81,6 @@ void EnterBattle(Player *user) {
       default:
         throw(1);
       }
-      cout << "\n - - Press Enter to Continue - - \n";
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      cin.get();
 
       if (quit) {
         if (system("cls"))

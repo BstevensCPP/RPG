@@ -1,110 +1,62 @@
 #pragma once
 #include "Charecter.h"
-#include "Enemy.h"
 #include <cstdlib>
-#include <ios>
-#include <iostream>
+#include <ctime>
 #include <limits>
+class Enemy : public Charecter {
+protected:
+  int bounty;
 
-using namespace std;
-
-void EnterBattle(Player *user) {
-  srand(time(0));
-  Enemy *enemy;
-  int option;
-  bool quit = false;
-
-  switch (1 + rand() % (3)) {
-  case 1:
-    enemy = new Cog(1);
-    break;
-  case 2:
-    enemy = new ManOfWar(1);
-    break;
-  case 3:
-    enemy = new Brig(1);
-    break;
-  default:
-    cout << "what?\n";
+public:
+  bool alive = true;
+  Enemy(string name, int hp, int def, int spd, int atk, int lvl, int min,
+        int max)
+      : Charecter(name, hp, def, spd, atk, lvl) {
+    srand(time(0));
+    this->bounty = min + rand() % (max - min + 1);
   }
-
-  cout << "A wild " << enemy->getName() << " Appeared!\n";
-  cout << "\n - - Press Enter to Continue - - \n";
-  cin.ignore(numeric_limits<streamsize>::max(), '\n');
-  cin.get();
-
-  if (system("cls"))
-    system("clear");
-  if (enemy->getSpeed() > user->getSpeed())
-    enemy->takeTurn(user);
-
-  while (true) {
-    if (!(enemy->alive)) {
-      delete enemy;
-      user->clearBuff();
-      if (system("cls"))
-        system("clear");
+  void takeTurn(Player *user) {
+    srand(time(0));
+    switch (1 + rand() % (10)) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      // Attack
+      user->takeHit(getAttack());
       break;
-    }
-    try {
-      cout << "- - - - - - - - - -";
-      user->displayStats();
-      cout << "\n- - - - vs. - - - -\n";
-      enemy->displayStats();
-      cout << "- - - - - - - - - -\n\n";
-      /* List Options */
-
-      cout << "1. Attack\n"
-           << "2. Defend\n"
-           << "3. Run\n"
-           << "\nAnswer: ";
-
-      /* Get Answer - Throw ERROR 0 if invalid */
-      if (!(cin >> option))
-        throw(0);
-      if (system("cls"))
-        system("clear");
-      /* Run chosen function - Throw ERROR 1 if not found */
-      switch (option) {
-      case 1:
-        // Attack
-        enemy->takeHit(user->getAttack());
-        break;
-      case 2:
-        // Defend
-        user->buffDefence(8);
-        break;
-      case 3:
-        // Run
-        cout << "\nYou successfully escaped!\n" << endl;
-        quit = true;
-        break;
-      default:
-        throw(1);
-      }
-
-      if (quit) {
-        if (system("cls"))
-          system("clear");
-        break;
-      }
-
-      enemy->takeTurn(user);
-    } catch (int e) {
-
-      /* Clear input stream */
-      cin.clear();
+    case 5:
+    case 6:
+    case 7:
+      // Defend
+      buffDefence(8);
+      cout << endl << this->name << " Armored Up!\n" << endl;
+      break;
+    case 8:
+    case 9:
+    case 10:
+      // Run
+      cout << "\n" << this->name << " ran away!\n";
+      cout << "\n - - Press Enter to Continue - - \n";
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      /* Display ERROR */
-      switch (e) {
-      case 0:
-        cout << "\n\nNUMBERS ONLY!!!\n";
-        break;
-      case 1:
-        cout << "\n\nNUMBER OUT OF RANGE!!!\n";
-        break;
-      }
+      cin.get();
+      alive = false;
+      break;
+    default:
+      cout << "what?\n";
     }
+    cout << "\nEnemy took turn!\n";
   }
-}
+};
+class Cog : public Enemy {
+public:
+  Cog(int lvl) : Enemy("Cog", 40, 20, 30, 5, lvl, 500, 1000) {}
+};
+class ManOfWar : public Enemy {
+public:
+  ManOfWar(int lvl) : Enemy("Man of War", 50, 30, 5, 20, lvl, 2000, 3000) {}
+};
+class Brig : public Enemy {
+public:
+  Brig(int lvl) : Enemy("Brig", 50, 15, 20, 10, lvl, 1000, 2000) {}
+};
