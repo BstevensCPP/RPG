@@ -3,8 +3,6 @@
 #include "Charecter.h"
 #include "GuiFunc.h"
 #include <cstdlib>
-#include <ctime>
-#include <limits>
 
 // Enemy is type of Charecter
 class Enemy : public Charecter {
@@ -28,34 +26,21 @@ public:
     srand(time(0));
     switch (1 + rand() % (9)) {
     // 40% chance to attack
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-      // Attack
+    case 1 ... 4:
       user->takeHit(getAttack());
       break;
     // 30% chance to buff defence
-    case 5:
-    case 6:
-    case 7:
-      // Defend
+    case 5 ... 7:
       buffDefence(8);
       cout << endl << this->name << " Armored Up!\n" << endl;
       clearScreen();
       break;
     // 20% chance to run
-    case 8:
-    case 9:
-      // Run
+    case 8 ... 9:
       cout << "\n" << this->name << " ran away!\n";
-      cout << "\n - - Press Enter to Continue - - \n";
-      clearStream();
-      cin.get();
+      pause();
       alive = false;
       break;
-    default:
-      cout << "what?\n";
     }
   }
 };

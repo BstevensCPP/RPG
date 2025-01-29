@@ -1,27 +1,20 @@
 // Pre-Processor Operations
 #pragma once
 #include "Charecter.h"
-#include "Enemy.h"
 #include "EnterBattle.h"
 #include "SelectionList.h"
-#include <ios>
-#include <iostream>
 #include <limits>
-
-using namespace std;
 
 void startMenu(Player *user) {
 
   // Variables
-  bool quit = false;
-  const int size = 6;
-  string options[size] = {"Return to Game",   "Enter Battle",
-                          "Manage Inventory", "Enter Shop",
-                          "Talke to Someone", "Quit Game"};
+  bool run = true;
+  string options[] = {"Return to Game", "Enter Battle",     "Manage Inventory",
+                      "Enter Shop",     "Talke to Someone", "Quit Game"};
 
   // Display menu until user quits
-  while (true) {
-    switch (selectionList(options, size, 0)) {
+  while (run) {
+    switch (selectionList(options, sizeof(options) / sizeof(options[0]), 0)) {
     case 1:
       // returnToOverworld();
       break;
@@ -39,9 +32,7 @@ void startMenu(Player *user) {
       break;
     case 6:
       // QUIT
-      quit = true;
+      run = false;
     }
-    if (quit)
-      break;
   }
 }
