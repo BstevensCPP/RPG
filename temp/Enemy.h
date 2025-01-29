@@ -32,15 +32,14 @@ public:
     case 7:
       // Defend
       buffDefence(8);
-      cout << "\n" << this->name << " Armored Up!\n" << endl;
       break;
     case 8:
     case 9:
     case 10:
       cout << "\n" << this->name << " ran away!\n" << endl;
       cout << "\n - - Press Enter to Continue - - \n";
-      // cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      // cin.get();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      cin.get();
 
       alive = false;
       // Run
