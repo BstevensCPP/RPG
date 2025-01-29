@@ -1,6 +1,8 @@
+// Pre-Processor Operations
 #pragma once
 #include "Charecter.h"
 #include "Enemy.h"
+#include "SelectionList.h"
 #include <cstdlib>
 #include <ios>
 #include <iostream>
@@ -9,11 +11,16 @@
 using namespace std;
 
 void EnterBattle(Player *user) {
+
+  // Seed random & declare vaiables
   srand(time(0));
   Enemy *enemy;
   int option;
   bool quit = false;
+  const int size = 3;
+  string options[size] = {"Attack", "Defend", "Run"};
 
+  // 33% To Choose One of Three Enemies
   switch (1 + rand() % (3)) {
   case 1:
     enemy = new Cog(1);
@@ -25,85 +32,72 @@ void EnterBattle(Player *user) {
     enemy = new Brig(1);
     break;
   default:
+    // I don't know how this would ever happen and I would be baffled if it did
     cout << "what?\n";
   }
 
+  // Shows what enemy the player is facing
   cout << "\nA wild " << enemy->getName() << " Appeared!\n";
   cout << "\n - - Press Enter to Continue - - \n";
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
   cin.get();
 
+  /* Clear Screen */
   if (system("cls"))
     system("clear");
+
+  /* The fastest person goes first */
   if (enemy->getSpeed() > user->getSpeed())
     enemy->takeTurn(user);
 
+  // Display battle until it ends
   while (true) {
+
+    // If the enemy is dead then delete the enemy
     if (!(enemy->alive)) {
       delete enemy;
       if (system("cls"))
         system("clear");
       break;
     }
-    try {
-      cout << "- - - - - - - - - -";
-      user->displayStats();
-      cout << "\n- - - - vs. - - - -\n";
-      enemy->displayStats();
-      cout << "- - - - - - - - - -\n\n";
-      /* List Options */
 
-      cout << "1. Attack\n"
-           << "2. Defend\n"
-           << "3. Run\n"
-           << "\nAnswer: ";
+    // Displays Battle
+    cout << "- - - - - - - - - -";
+    user->displayStats();
+    cout << "\n- - - - vs. - - - -\n";
+    enemy->displayStats();
+    cout << "- - - - - - - - - -\n\n";
 
-      /* Get Answer - Throw ERROR 0 if invalid */
-      if (!(cin >> option))
-        throw(0);
-      if (system("cls"))
-        system("clear");
-      /* Run chosen function - Throw ERROR 1 if not found */
-      switch (option) {
-      case 1:
-        // Attack
-        enemy->takeHit(user->getAttack());
-        break;
-      case 2:
-        // Defend
-        user->buffDefence(8);
-        break;
-      case 3:
-        // Run
-        cout << "\nYou successfully escaped!\n" << endl;
-        quit = true;
-        break;
-      default:
-        throw(1);
+    // What did the player choose and option 0 is if an ERROR is thrown
+    switch (selectionList(options, size, 1)) {
+    case 0:
+      break;
+    case 1:
+      // Attack
+      enemy->takeHit(user->getAttack());
+
+      // If Enemy's health is 0 then it DIES
+      if (enemy->getHp() <= 0) {
+        cout << "\n ENEMY HAS DIED!!!\n";
+        enemy->alive = false;
+        cout << "\n - - Press Enter to Continue - - \n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.get();
       }
-
-      if (quit) {
-        if (system("cls"))
-          system("clear");
-        break;
-      }
-
-      enemy->takeTurn(user);
-    } catch (int e) {
-
-      /* Clear input stream */
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      /* Display ERROR */
-      switch (e) {
-      case 0:
-        cout << "\n\nNUMBERS ONLY!!!\n";
-        break;
-      case 1:
-        cout << "\n\nNUMBER OUT OF RANGE!!!\n";
-        break;
-      }
+      break;
+    case 2:
+      // Defend
+      user->buffDefence(8);
+      break;
+    case 3:
+      // Run
+      cout << "\nYou successfully escaped!\n" << endl;
+      quit = true;
     }
+    if (quit)
+      break;
+
+    // Enemies turn
+    enemy->takeTurn(user);
   }
 }
