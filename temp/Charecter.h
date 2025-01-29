@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -34,7 +35,16 @@ public:
   int getAttack() { return atk; }
   string getName() { return name; }
 
-  void buffDefence(int x) { defBuff += x; }
+  void buffDefence(int x) {
+    defBuff += x;
+
+    cout << endl << this->getName() << " Armored up!\n";
+    cout << "\n - - Press Enter to Continue - - \n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+    if (system("cls"))
+      system("clear");
+  }
   void clearBuff() { defBuff = 0; }
 
   void takeHit(int val) {
@@ -44,6 +54,12 @@ public:
     this->hp -= val;
 
     cout << "\n" << this->name << " took " << val << " Damage!\n";
+    cout << "\n - - Press Enter to Continue - - \n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+
+    if (system("cls"))
+      system("clear");
   }
 
   void levelUp() {
