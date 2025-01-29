@@ -1,5 +1,6 @@
 // Pre-Processor Operations
 #pragma once
+#include "GuiFunc.h"
 #include <iostream>
 #include <limits>
 
@@ -48,10 +49,9 @@ public:
 
     cout << endl << this->getName() << " Armored up!\n";
     cout << "\n - - Press Enter to Continue - - \n";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    clearStream();
     cin.get();
-    if (system("cls"))
-      system("clear");
+    clearScreen();
   }
   void clearBuff() { defBuff = 0; }
 
@@ -64,12 +64,11 @@ public:
 
     cout << "\n" << this->name << " took " << val << " Damage!\n";
     cout << "\n - - Press Enter to Continue - - \n";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    clearStream();
     cin.get();
 
     /* Clear Screen */
-    if (system("cls"))
-      system("clear");
+    clearScreen();
   }
 
   void levelUp() {

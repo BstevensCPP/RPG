@@ -2,6 +2,7 @@
 #pragma once
 #include "Charecter.h"
 #include "Enemy.h"
+#include "GuiFunc.h"
 #include "SelectionList.h"
 #include <cstdlib>
 #include <ios>
@@ -39,7 +40,7 @@ void EnterBattle(Player *user) {
   // Shows what enemy the player is facing
   cout << "\nA wild " << enemy->getName() << " Appeared!\n";
   cout << "\n - - Press Enter to Continue - - \n";
-  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  clearStream();
   cin.get();
 
   /* Clear Screen */
@@ -56,8 +57,7 @@ void EnterBattle(Player *user) {
     // If the enemy is dead then delete the enemy
     if (!(enemy->alive)) {
       delete enemy;
-      if (system("cls"))
-        system("clear");
+      clearScreen();
       break;
     }
 
@@ -81,7 +81,7 @@ void EnterBattle(Player *user) {
         cout << "\n ENEMY HAS DIED!!!\n";
         enemy->alive = false;
         cout << "\n - - Press Enter to Continue - - \n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        clearStream();
         cin.get();
       }
       break;

@@ -1,5 +1,6 @@
 // Pre-Processor Operations
 #include "Charecter.h"
+#include "GuiFunc.h"
 #include "StartMenu.h"
 
 using namespace std;
@@ -7,8 +8,7 @@ using namespace std;
 int main() {
 
   /* Clear Screen */
-  if (system("cls"))
-    system("clear");
+  clearScreen();
 
   // Create Player
   Player *user = new Player();

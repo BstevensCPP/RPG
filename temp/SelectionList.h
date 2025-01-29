@@ -1,5 +1,6 @@
 // Pre-Processor Operations
 #pragma once
+#include "GuiFunc.h"
 #include <iostream>
 #include <limits>
 
@@ -23,19 +24,14 @@ int selectionList(string *list, int size, int style) {
         throw(1);
 
       /* Clear Screen */
-      if (system("cls"))
-        system("clear");
+      clearScreen();
 
       break;
     } catch (int e) {
 
-      /* Clear input stream */
-      cin.clear();
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-      /* Clear Screen */
-      if (system("cls"))
-        system("clear");
+      /* Clear input stream & screen */
+      clearStream();
+      clearScreen();
 
       /* Display ERROR */
       switch (e) {
@@ -49,8 +45,7 @@ int selectionList(string *list, int size, int style) {
 
       // If Non-Repeating on ERROR
       if (style == 1) {
-        if (system("cls"))
-          system("clear");
+        clearScreen();
         return 0;
       }
     }

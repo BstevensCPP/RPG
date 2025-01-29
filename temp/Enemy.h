@@ -1,6 +1,7 @@
 // Pre-Processor operations
 #pragma once
 #include "Charecter.h"
+#include "GuiFunc.h"
 #include <cstdlib>
 #include <ctime>
 #include <limits>
@@ -41,6 +42,7 @@ public:
       // Defend
       buffDefence(8);
       cout << endl << this->name << " Armored Up!\n" << endl;
+      clearScreen();
       break;
     // 20% chance to run
     case 8:
@@ -48,7 +50,7 @@ public:
       // Run
       cout << "\n" << this->name << " ran away!\n";
       cout << "\n - - Press Enter to Continue - - \n";
-      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      clearStream();
       cin.get();
       alive = false;
       break;
