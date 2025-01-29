@@ -31,7 +31,7 @@ public:
   }
 
   // Used to display stats durring battle
-  void displayStats() {
+  virtual void displayStats() {
     cout << "\n\t" << name << "\n\thp: " << hp << "\n\tdef: " << def
          << "\n\tspd: " << spd << "\n\tatk: " << atk << endl;
   }
@@ -51,7 +51,6 @@ public:
     pause();
     clearScreen();
   }
-  void clearBuff() { defBuff = 0; }
 
   // Gets attack damage from other Charecter and reduces it based off defence
   void takeHit(int val) {
@@ -61,29 +60,53 @@ public:
     this->hp -= val;
 
     cout << "\n" << this->name << " took " << val << " Damage!\n";
+    pause();
     if (this->hp <= 0) {
+      clearScreen();
       cout << endl << this->getName() << " HAS DIED!!!\n";
       this->alive = false;
       pause();
     }
-    pause();
-    /* Clear Screen */
     clearScreen();
   }
-
-  void levelUp() {
-    hp += 1;
-    def += 1;
-    spd += 1;
-    atk += 1;
-  }
-
   // Deconstructor
   virtual ~Charecter() {};
 };
 
 // Player is type of Charecter with predefined stats
 class Player : public Charecter {
+  int xp = 0;
+
 public:
-  Player() : Charecter("Player", 50, 15, 20, 10, 1) {};
+  Player() : Charecter("Player", 50, 15, 20, 15, 1) {};
+
+  void levelUp() {
+    lvl += 1;
+    hp += 1;
+    def += 1;
+    spd += 1;
+    atk += 1;
+
+    clearScreen();
+    cout << "\nLEVEL UP!!!" << endl;
+    pause();
+    clearScreen();
+  }
+
+  void gainXp(int xp) {
+    this->xp += xp;
+    int ceiling = 50 * (1 + 0.1 * (this->lvl - 1));
+    if (this->xp >= ceiling) {
+      this->xp -= ceiling;
+      levelUp();
+    }
+  }
+
+  void clearBuff() { defBuff = 0; }
+
+  void displayStats() override {
+    Charecter::displayStats();
+
+    cout << "\txp: " << this->xp << endl;
+  }
 };

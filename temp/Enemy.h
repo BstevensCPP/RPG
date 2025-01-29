@@ -21,6 +21,16 @@ public:
     this->bounty = min + rand() % (max - min + 1);
   }
 
+  void takeHit(int val, Player *user) {
+    Charecter::takeHit(val);
+
+    val -= this->getDefence() * 0.25;
+    if (val < 0)
+      val = 0;
+
+    user->gainXp(val);
+  }
+
   // Enemy needs address of player to do damage
   void takeTurn(Player *user) {
     srand(time(0));

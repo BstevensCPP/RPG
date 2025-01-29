@@ -46,6 +46,7 @@ void EnterBattle(Player *user) {
     if (!(enemy->alive) || !(user->alive)) {
       delete enemy;
       clearScreen();
+      user->clearBuff();
       run = false;
       break;
     }
@@ -63,7 +64,7 @@ void EnterBattle(Player *user) {
       break;
     case 1:
       // Attack
-      enemy->takeHit(user->getAttack());
+      enemy->takeHit(user->getAttack(), user);
 
       if (enemy->alive)
         enemy->takeTurn(user);
@@ -76,6 +77,8 @@ void EnterBattle(Player *user) {
     case 3:
       // Run
       cout << "\nYou successfully escaped!\n" << endl;
+      pause();
+      clearScreen();
       run = false;
     }
   }
