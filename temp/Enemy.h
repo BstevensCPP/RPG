@@ -28,6 +28,7 @@ public:
     // 40% chance to attack
     case 1 ... 4:
       user->takeHit(getAttack());
+
       break;
     // 30% chance to buff defence
     case 5 ... 7:

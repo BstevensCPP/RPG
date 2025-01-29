@@ -43,7 +43,7 @@ void EnterBattle(Player *user) {
   while (run) {
 
     // If the enemy is dead then delete the enemy
-    if (!(enemy->alive)) {
+    if (!(enemy->alive) || !(user->alive)) {
       delete enemy;
       clearScreen();
       run = false;
@@ -65,14 +65,8 @@ void EnterBattle(Player *user) {
       // Attack
       enemy->takeHit(user->getAttack());
 
-      // If Enemy's health is 0 then it DIES
-      if (enemy->getHp() <= 0) {
-        cout << "\n ENEMY HAS DIED!!!\n";
-        enemy->alive = false;
-        pause();
-      }
-
-      enemy->takeTurn(user);
+      if (enemy->alive)
+        enemy->takeTurn(user);
       break;
     case 2:
       // Defend

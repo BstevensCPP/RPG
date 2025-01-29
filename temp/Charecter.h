@@ -48,9 +48,7 @@ public:
     defBuff += x;
 
     cout << endl << this->getName() << " Armored up!\n";
-    cout << "\n - - Press Enter to Continue - - \n";
-    clearStream();
-    cin.get();
+    pause();
     clearScreen();
   }
   void clearBuff() { defBuff = 0; }
@@ -63,10 +61,12 @@ public:
     this->hp -= val;
 
     cout << "\n" << this->name << " took " << val << " Damage!\n";
-    cout << "\n - - Press Enter to Continue - - \n";
-    clearStream();
-    cin.get();
-
+    if (this->hp <= 0) {
+      cout << endl << this->getName() << " HAS DIED!!!\n";
+      this->alive = false;
+      pause();
+    }
+    pause();
     /* Clear Screen */
     clearScreen();
   }
