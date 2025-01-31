@@ -1,7 +1,9 @@
 // Pre-Processor Operations
 #pragma once
 #include "GuiFunc.h"
+#include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <limits>
 
 using namespace std;
